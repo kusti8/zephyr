@@ -18,6 +18,7 @@
 #include <hal/nrf_power.h>
 #include <soc/nrfx_coredep.h>
 #include <zephyr/logging/log.h>
+#include <pm/state.h>
 
 #ifdef CONFIG_RUNTIME_NMI
 extern void z_arm_nmi_init(void);
@@ -51,8 +52,13 @@ LOG_MODULE_REGISTER(soc);
    Set general purpose retention register and reboot */
 void sys_arch_reboot(int type)
 {
-	nrf_power_gpregret_set(NRF_POWER, (uint8_t)type);
-	NVIC_SystemReset();
+	if (type == 0xFE){
+	    nrf_power_system_off(NRF_POWER);
+        }
+        else{
+		nrf_power_gpregret_set(NRF_POWER, (uint8_t)type);
+		NVIC_SystemReset();
+	}
 }
 
 static int nordicsemi_nrf52_init(const struct device *arg)
