@@ -18,7 +18,7 @@
 #include <hal/nrf_power.h>
 #include <soc/nrfx_coredep.h>
 #include <zephyr/logging/log.h>
-#include <pm/state.h>
+#include <zephyr/pm/state.h>
 
 #ifdef CONFIG_RUNTIME_NMI
 extern void z_arm_nmi_init(void);
